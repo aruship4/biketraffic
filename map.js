@@ -19,6 +19,7 @@ const map = new mapboxgl.Map({
 });
 
 map.on('load', async () => {
+    //boston
     map.addSource('boston_route', {
         type: 'geojson',
         data: './Existing_Bike_Network_2022.geojson',
@@ -31,6 +32,23 @@ map.on('load', async () => {
         paint: {
           'line-color': '#32D400',
           'line-width': 5,
+          'line-opacity': 0.6,
+        },
+      });
+      
+    //cambridge
+    map.addSource('cambridge_route', {
+        type: 'geojson',
+        data: 'https://raw.githubusercontent.com/cambridgegis/cambridgegis_data/main/Recreation/Bike_Facilities/RECREATION_BikeFacilities.geojson',
+      });
+    
+      map.addLayer({
+        id: 'bike-lanes-cambridge',
+        type: 'line',
+        source: 'cambridge_route',
+        paint: {
+          'line-color': '#1E90FF', // blue so you can tell the difference
+          'line-width': 4,
           'line-opacity': 0.6,
         },
       });
