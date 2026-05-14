@@ -56,7 +56,7 @@ map.on('load', async () => {
 
     let jsonData;
     try {
-        const jsonurl = INPUT_BLUEBIKES_CSV_URL;
+        const jsonurl = './bluebikes-stations.json';
     
         // Await JSON fetch
         const jsonData = await d3.json(jsonurl);
