@@ -10,9 +10,13 @@ const map = new mapboxgl.Map({
   zoom: 12,
 });
 
-const svg = d3.select('#map').select('svg');
-let timeFilter = -1;
+
 map.on('load', async () => {
+
+  const svg = d3.select('#map').select('svg');
+  let timeFilter = -1;
+
+  
   const timeSlider = document.getElementById('time-slider');
   const selectedTime = document.getElementById('selected-time');
   const anyTimeLabel = document.getElementById('any-time');
