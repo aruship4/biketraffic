@@ -5,15 +5,6 @@ body {
   width: 100%;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  box-sizing: border-box;
-  gap: 10px;
-  font-family: sans-serif;
-}
-
 /* HEADER */
 header {
     display: flex;
