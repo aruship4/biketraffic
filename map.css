@@ -9,6 +9,32 @@ body {
   align-items: center; /* Center vertically */
 }
 
+header {
+    display: flex;
+    align-items: baseline;
+    gap: 1em;
+    padding: 10px;
+  }
+
+header label {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  
+header time,
+header em {
+  display: block;
+  margin-top: 0.25em;
+}
+
+header em {
+  color: #888;
+  font-style: italic;
+}
+
+
 #map {
   width: 100%; /* Adjust width to your desired size */
   height: 100%; /* Adjust height to your desired size */
