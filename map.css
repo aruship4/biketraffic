@@ -16,17 +16,18 @@ body {
 
 /* HEADER */
 header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-}
-
-/* slider block */
-header label {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
+    display: flex;
+    align-items: baseline;
+    gap: 1em;
+    width: 100%;
+  }
+  
+  header label {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
 
 /* MAP TAKES REMAINING SPACE */
 #map {
