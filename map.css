@@ -1,8 +1,3 @@
-html {
-  margin: 0;
-  height: 100%;
-  width: 100%;
-}
 
 
 body {
@@ -36,6 +31,7 @@ header label em {
 
   border-radius: 8px;
   overflow: hidden;
+  min-height: 700px;
 
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
