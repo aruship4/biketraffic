@@ -61,3 +61,32 @@ header label em {
     );
     fill: var(--color);
   }
+
+/* legend container */
+.legend {
+  display: flex;
+  margin-block: 1em;
+  gap: 1px;
+  font-size: 0.9rem;
+}
+
+/* legend items */
+.legend div {
+  flex: 1;
+  padding: 0.5em 1em;
+  color: white;
+  font-weight: 600;
+}
+
+/* optional alignment */
+.legend div:first-child {
+  text-align: left;
+}
+
+.legend div:nth-child(2) {
+  text-align: center;
+}
+
+.legend div:last-child {
+  text-align: right;
+}
