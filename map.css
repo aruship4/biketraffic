@@ -4,6 +4,12 @@ html {
   width: 100%;
 }
 
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
 /* HEADER */
 header {
     display: flex;
@@ -25,7 +31,7 @@ header label em {
 
 /* MAP TAKES REMAINING SPACE */
 #map {
-  flex: 1;              /* THIS is the key fix */
+  flex: 1;            
   position: relative;
 
   border-radius: 8px;
