@@ -19,16 +19,11 @@ map.on('load', async () => {
     type: 'geojson',
     data: './Existing_Bike_Network_2022.geojson',
   });
-
   map.addLayer({
     id: 'bike-lanes',
     type: 'line',
     source: 'boston_route',
-    paint: {
-      'line-color': '#32D400',
-      'line-width': 5,
-      'line-opacity': 0.6,
-    },
+    paint: { 'line-color': '#32D400', 'line-width': 5, 'line-opacity': 0.6 },
   });
 
   // Cambridge
@@ -36,30 +31,37 @@ map.on('load', async () => {
     type: 'geojson',
     data: 'https://raw.githubusercontent.com/cambridgegis/cambridgegis_data/main/Recreation/Bike_Facilities/RECREATION_BikeFacilities.geojson',
   });
-
   map.addLayer({
     id: 'bike-lanes-cambridge',
     type: 'line',
     source: 'cambridge_route',
-    paint: {
-      'line-color': '#1E90FF',
-      'line-width': 4,
-      'line-opacity': 0.6,
-    },
+    paint: { 'line-color': '#1E90FF', 'line-width': 4, 'line-opacity': 0.6 },
   });
 
-  let jsonData;
-  try {
-    jsonData = await d3.json(
-      'https://dsc106.com/labs/lab07/data/bluebikes-stations.json'
-    );
-  } catch (error) {
-    console.error(error);
-    return;
-  }
+  // 1. Fetch data
+  const jsonData = await d3.json('https://dsc106.com/labs/lab07/data/bluebikes-stations.json');
+  const trips = await d3.csv('https://dsc106.com/labs/lab07/data/bluebikes-traffic-2024-03.csv');
 
-  const stations = jsonData.data.stations;
+  // 2. Enrich stations
+  let stations = jsonData.data.stations;
 
+  const departures = d3.rollup(trips, v => v.length, d => d.start_station_id);
+  const arrivals   = d3.rollup(trips, v => v.length, d => d.end_station_id);
+
+  stations = stations.map((station) => {
+    let id = station.short_name;
+    station.arrivals     = arrivals.get(id)   ?? 0;
+    station.departures   = departures.get(id) ?? 0;
+    station.totalTraffic = station.arrivals + station.departures;
+    return station;
+  });
+
+  // 3. Build scale
+  const radiusScale = d3.scaleSqrt()
+    .domain([0, d3.max(stations, d => d.totalTraffic)])
+    .range([0, 25]);
+
+  // 4. Draw circles
   const circles = svg
     .selectAll('circle')
     .data(stations)
@@ -67,12 +69,9 @@ map.on('load', async () => {
     .append('circle')
     .attr('r', d => radiusScale(d.totalTraffic))
     .each(function (d) {
-        d3.select(this)
-            .append('title')
-            .text(
-                `${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`,
-            );
-
+      d3.select(this)
+        .append('title')
+        .text(`${d.totalTraffic} trips (${d.departures} departures, ${d.arrivals} arrivals)`);
     });
 
   function getCoords(station) {
@@ -87,39 +86,10 @@ map.on('load', async () => {
       .attr('cy', d => getCoords(d).cy);
   }
 
-  updatePositions(); 
+  updatePositions();
 
   map.on('move', updatePositions);
   map.on('zoom', updatePositions);
   map.on('resize', updatePositions);
   map.on('moveend', updatePositions);
-
-  const trips = await d3.csv('https://dsc106.com/labs/lab07/data/bluebikes-traffic-2024-03.csv');
-  
-  const departures = d3.rollup(
-    trips,
-    (v) => v.length,
-    (d) => d.start_station_id,
-  );
-
-  const arrivals = d3.rollup(
-    trips,
-    (v) => v.length,
-    (d) => d.end_station_id,
-  );
-
-  stations = stations.map((station) => {
-    let id = station.short_name;
-    station.arrivals = arrivals.get(id) ?? 0;
-    station.departures = departures.get(id) ?? 0;
-    station.totalTraffic = station.arrivals + station.departures;
-    return station;
-  });
-
-  const radiusScale = d3
-  .scaleSqrt()
-  .domain([0, d3.max(stations, (d) => d.totalTraffic)])
-  .range([0, 25]);
-
-
 });
