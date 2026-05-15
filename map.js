@@ -11,8 +11,12 @@ const map = new mapboxgl.Map({
 });
 
 const svg = d3.select('#map').select('svg');
-
+let timeFilter = -1;
 map.on('load', async () => {
+  const timeSlider = document.getElementById('time-slider');
+  const selectedTime = document.getElementById('selected-time');
+  const anyTimeLabel = document.getElementById('any-time');
+
 
   // Boston
   map.addSource('boston_route', {
@@ -122,9 +126,6 @@ map.on('load', async () => {
   map.on('resize', updatePositions);
   map.on('moveend', updatePositions);
 
-  const timeSlider = document.getElementById('time-slider');
-  const selectedTime = document.getElementById('selected-time');
-  const anyTimeLabel = document.getElementById('any-time');
 
   timeSlider.addEventListener('input', updateTimeDisplay);
   updateTimeDisplay();
