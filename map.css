@@ -96,3 +96,7 @@ header label em {
 .legend div:last-child {
   text-align: right;
 }
+
+#time-slider {
+  width: 250px;
+}
