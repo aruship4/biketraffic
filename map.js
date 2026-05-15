@@ -16,7 +16,10 @@ map.on('load', async () => {
   const svg = d3.select('#map').select('svg');
   let timeFilter = -1;
 
-  
+  let stationFlow = d3.scaleQuantize().domain([0, 1]).range([0, 0.5, 1]);
+
+
+
   const timeSlider = document.getElementById('time-slider');
   const selectedTime = document.getElementById('selected-time');
   const anyTimeLabel = document.getElementById('any-time');
@@ -90,7 +93,10 @@ map.on('load', async () => {
     circles
       .data(filteredStations, (d) => d.short_name)
       .join('circle') // Ensure the data is bound correctly
-      .attr('r', (d) => radiusScale(d.totalTraffic)); // Update circle sizes
+      .attr('r', (d) => radiusScale(d.totalTraffic)) // Update circle sizes
+      .style('--departure-ratio', (d) =>
+        stationFlow(d.departures / d.totalTraffic),
+      );
   }
 
   // 3. Build scale
@@ -105,6 +111,8 @@ map.on('load', async () => {
     .enter()
     .append('circle')
     .attr('r', d => radiusScale(d.totalTraffic))
+    .style('--departure-ratio', (d) =>
+      stationFlow(d.departures / d.totalTraffic),)
     .each(function (d) {
       d3.select(this)
         .append('title')
