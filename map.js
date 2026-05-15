@@ -66,9 +66,6 @@ map.on('load', async () => {
     .enter()
     .append('circle')
     .attr('r', d => radiusScale(d.totalTraffic))
-    .attr('fill', 'steelblue')
-    .attr('stroke', 'white')
-    .attr('opacity', 0.8)
     .each(function (d) {
         d3.select(this)
             .append('title')
