@@ -12,11 +12,15 @@ header {
     width: 100%;
   }
   
-  header label {
+header label {
     margin-left: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+  }
+
+header label em {
+    color: gray;
   }
 
 /* MAP TAKES REMAINING SPACE */
