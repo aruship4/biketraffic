@@ -45,8 +45,6 @@ header label em {
   pointer-events: none;
   z-index: 1;
 
-  background: red;
-  opacity: 0.3;
 }
 
 #map svg circle {
